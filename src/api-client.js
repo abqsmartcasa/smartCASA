@@ -17,7 +17,7 @@ class API {
         return response.json();
       })
       .then(data => {
-        return data.data;
+        return data;
       });
   }
 
@@ -27,7 +27,7 @@ class API {
         return response.json();
       })
       .then(data => {
-        return data.data;
+        return data;
       });
   }
 
@@ -40,17 +40,7 @@ class API {
         return response.json();
       })
       .then(data => {
-        return data.data;
-      });
-  }
-
-  getAllCompliances() {
-    return fetch(`${this.baseURL}/compliances`, this.init)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        return data.data;
+        return data;
       });
   }
 
@@ -60,7 +50,7 @@ class API {
         return response.json();
       })
       .then(data => {
-        return data.data;
+        return data;
       });
   }
 }

@@ -120,7 +120,7 @@ class ComplianceChart {
         const active = document.querySelector('.underline--active');
         active.classList.remove('underline--active');
         const underline = document.querySelector(
-          `.underline-${imr.imr.reportId}`
+          `.underline-${imr.imr.reportName.split('-')[1]}`
         );
         underline.classList.add('underline--active');
       });
@@ -155,10 +155,12 @@ class ComplianceChart {
         'http://www.w3.org/2000/svg',
         'text'
       );
-      label.textContent = `IMR-${imr.reportId}`;
+      const reportId = imr.reportName.split('-')[1]
+      console.log(reportId)
+      label.textContent = imr.reportName;
       label.setAttribute('x', x);
       label.classList.add('label');
-      label.classList.add(`label-${imr.reportId}`);
+      label.classList.add(`label-${imr.reportName.split('-')[1]}`);
       x += barWidth + 10;
       label.setAttribute('y', this.height - 20);
       label.style.fontSize = `${Math.min(this.width / 35, 16)}px`;
@@ -166,7 +168,7 @@ class ComplianceChart {
         this.subscriber.publish('compliance-change', imr);
         const active = document.querySelector('.underline--active');
         active.classList.remove('underline--active');
-        const underline = document.querySelector(`.underline-${imr.reportId}`);
+        const underline = document.querySelector(`.underline-${reportId}`);
         underline.classList.add('underline--active');
       });
 
@@ -175,7 +177,7 @@ class ComplianceChart {
         'rect'
       );
       underline.classList.add('underline');
-      underline.classList.add(`underline-${imr.reportId}`);
+      underline.classList.add(`underline-${reportId}`);
       underline.setAttribute('height', 5);
       underline.setAttribute('width', barWidth);
       underline.setAttribute('x', underlineX);
@@ -225,7 +227,7 @@ class ComplianceChart {
       this.setTitle();
       this.drawLabels();
       const active = document.querySelector(
-        `.underline-${this.data.slice(-1)[0].reportId}`
+        `.underline-${this.data.slice(-1)[0].reportName.split('-')[1]}`
       );
       active.classList.add('underline--active');
       this.drawBars();

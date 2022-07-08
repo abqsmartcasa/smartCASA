@@ -1,5 +1,13 @@
 import { Term } from './glossary';
 import { parseDate, calculateComplianceSummary, calculateScore } from './utils';
+
+function titleCase(text) { return text.toLowerCase()
+.split(' ')
+.map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+.join(' ');
+}
+
+
 class ComplianceList {
 	constructor(subscriber) {
 		this.title = document.querySelector('.report-title');
@@ -71,6 +79,8 @@ class ComplianceList {
 	}
 
 	update(data) {
+		console.log("data");
+		console.log(data)
 		this.complianceSummary.innerHTML = '';
 		while (this.pages.firstChild) {
 			this.pages.removeChild(this.pages.firstChild);
@@ -121,9 +131,10 @@ class ComplianceList {
 			Pending: 'compliance-list__item--other',
 			'Unable to Monitor': 'compliance-list__item--other'
 		};
-		this.title.href = `https://s3-us-west-2.amazonaws.com/smartcasa-docs/IMR-${data.reportId}.pdf`;
-		this.title.innerHTML = `Independent Monitoring Report (IMR) - ${data.reportId}:`;
-		this.title.title = `Download IMR ${data.reportId} PDF`;
+		this.title.href = `https://s3-us-west-2.amazonaws.com/smartcasa-docs/${data.reportName}.pdf`;
+
+		this.title.innerHTML = `Independent Monitoring Report (IMR) - ${data.reportName.split('-')[1]}:`;
+		this.title.title = `Download ${data.reportName} PDF`;
 		this.complianceSummary.innerHTML = calculateComplianceSummary(data);
 		this.complianceSummary.classList.add(complianceSummaries[calculateScore(data)]);
 		let pagesText = '';
@@ -144,13 +155,16 @@ class ComplianceList {
 			9: 2,
 			10: 2,
 			11: 2,
-			12: 2
+			12: 2,
+			13: 2,
+			14: 2,
+			15: 2
 		};
 		const pagesAnchor = document.createElement('a');
 		pagesAnchor.setAttribute('target', '_blank');
 		pagesAnchor.setAttribute('rel', 'noopener');
-		const correctedPage = data.pages[0] + imrPageOffset[data.reportId];
-		pagesAnchor.href = `https://s3-us-west-2.amazonaws.com/smartcasa-docs/IMR-${data.reportId}.pdf#page=${correctedPage}`;
+		const correctedPage = data.pages[0] + imrPageOffset[data.reportName.split('-')[1]];
+		pagesAnchor.href = `https://s3-us-west-2.amazonaws.com/smartcasa-docs/${data.reportName}.pdf#page=${correctedPage}`;
 
 		const pages = document.createTextNode(`Pages ${pagesText}`);
 		pagesAnchor.appendChild(pages);
@@ -166,11 +180,11 @@ class ComplianceList {
 		while (primaryComplianceContainer.firstChild) {
 			primaryComplianceContainer.removeChild(primaryComplianceContainer.firstChild);
 		}
-		const primaryClass = compliances[data.primaryCompliance];
+		const primaryClass = compliances[titleCase(data.primaryCompliance)];
 		primaryComplianceContainer.appendChild(primaryComplianceStatus);
 		primaryComplianceContainer.classList.add(primaryClass);
 
-		const secondaryComplianceStatus = document.createTextNode(`${data.secondaryCompliance}`);
+		const secondaryComplianceStatus = document.createTextNode(`${titleCase(data.secondaryCompliance)}`);
 		const secondaryComplianceContainer = document.querySelector('.js-secondary-compliance');
 		secondaryComplianceContainer.classList.remove(
 			'compliance-list__item--in-compliance',
@@ -180,7 +194,7 @@ class ComplianceList {
 		while (secondaryComplianceContainer.firstChild) {
 			secondaryComplianceContainer.removeChild(secondaryComplianceContainer.firstChild);
 		}
-		const secondaryClass = compliances[data.secondaryCompliance];
+		const secondaryClass = compliances[titleCase(data.secondaryCompliance)];
 		secondaryComplianceContainer.appendChild(secondaryComplianceStatus);
 		secondaryComplianceContainer.classList.add(secondaryClass);
 
@@ -195,7 +209,7 @@ class ComplianceList {
 		while (operationalComplianceContainer.firstChild) {
 			operationalComplianceContainer.removeChild(operationalComplianceContainer.firstChild);
 		}
-		const operationalClass = compliances[data.operationalCompliance];
+		const operationalClass = compliances[titleCase(data.operationalCompliance)];
 		operationalComplianceContainer.appendChild(operationalComplianceStatus);
 		operationalComplianceContainer.classList.add(operationalClass);
 	}
