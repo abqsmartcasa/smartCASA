@@ -22,15 +22,15 @@ function parseDate(dateString) {
 
 function calculateScore(imr) {
   let score = 0;
-  if (imr.primaryCompliance == 'Not In Compliance') {
+  if (imr.primaryCompliance == 'not in compliance') {
     score = -3;
-  } else if (imr.primaryCompliance == 'In Compliance') {
-    if (imr.secondaryCompliance == 'Not In Compliance') {
+  } else if (imr.primaryCompliance == 'in compliance') {
+    if (imr.secondaryCompliance == 'not in compliance') {
       score = -2;
-    } else if (imr.secondaryCompliance == 'In Compliance') {
-      if (imr.operationalCompliance == 'In Compliance') {
+    } else if (imr.secondaryCompliance == 'in compliance') {
+      if (imr.operationalCompliance == 'in compliance') {
         score = 3;
-      } else if (imr.operationalCompliance == 'Not In Compliance') {
+      } else if (imr.operationalCompliance == 'not in compliance') {
         score = -1;
       } else {
         score = 2;

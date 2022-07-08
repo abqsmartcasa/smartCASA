@@ -24,7 +24,7 @@ class IncrementButton {
     }, 300);
     this.update(this.paragraphs[currentIdx + 1]);
     if (this.currentParagraph.id != 344) {
-      this.api.getComplianceByParagraph(this.currentParagraph.id).then(data => {
+      this.api.getComplianceByParagraph(this.currentParagraph.number).then(data => {
         this.api.getAllReports().then(reports => {
           for (let i = 0; i < data.length; i++) {
             data[i].report = reports[i];
@@ -32,7 +32,7 @@ class IncrementButton {
           this.subscriber.publish('report-list-change', data);
           document.querySelector(
             '.title-paragraph-number'
-          ).innerHTML = this.currentParagraph.paragraphNumber;
+          ).innerHTML = this.currentParagraph.number;
         });
       });
     }
@@ -73,8 +73,8 @@ class DecrementButton {
       this.elem.classList.remove('paragraph-btn--clicked');
     }, 400);
     this.update(this.paragraphs[currentIdx - 1]);
-    if (this.currentParagraph.id != 1) {
-      this.api.getComplianceByParagraph(this.currentParagraph.id).then(data => {
+    if (this.currentParagraph.number != 1) {
+      this.api.getComplianceByParagraph(this.currentParagraph.number).then(data => {
         this.api.getAllReports().then(reports => {
           for (let i = 0; i < data.length; i++) {
             data[i].report = reports[i];
@@ -82,7 +82,7 @@ class DecrementButton {
           this.subscriber.publish('report-list-change', data);
           document.querySelector(
             '.title-paragraph-number'
-          ).innerHTML = this.currentParagraph.paragraphNumber;
+          ).innerHTML = this.currentParagraph.number;
         });
       });
     }
@@ -92,7 +92,7 @@ class DecrementButton {
   update(paragraph) {
     this.elem.classList.remove('paragraph-btn--hidden');
     this.currentParagraph = paragraph;
-    if (this.currentParagraph.id == 1) {
+    if (this.currentParagraph.number == 1) {
       this.elem.classList.add('paragraph-btn--hidden');
     }
   }

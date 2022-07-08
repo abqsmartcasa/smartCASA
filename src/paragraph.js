@@ -12,8 +12,8 @@ class Paragraph {
     while (this.body.firstChild) {
       this.body.removeChild(this.body.firstChild);
     }
-    this.title.innerHTML = `${data.paragraphNumber} - ${data.paragraphTitle}`;
-    const paragraphText = document.createTextNode(data.paragraphText);
+    this.title.innerHTML = `Paragraph ${data.number}`;
+    const paragraphText = document.createTextNode(data.text);
     this.body.appendChild(paragraphText);
     replaceTerms(this.body, this.subscriber);
     addLineBreaks(this.body);

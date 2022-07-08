@@ -20,14 +20,11 @@
       href="https://fonts.googleapis.com/css?family=Roboto"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css %>" />
+    <link rel="stylesheet" href="style.css" />
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=UA-135893593-1"
     ></script>
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise"></script>
-    <script src="https://unpkg.com/unfetch/polyfill"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.2.20171210/classList.min.js"></script>
     <link rel="preconnect" href="https://api.smartcasa.org" />
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -43,7 +40,6 @@
   <body>
     <div class="navigation">
       <div class="logo">
-        <img src="<%= require('../static/logo.svg') %>" alt="smart casa logo" />
       </div>
       <a href="/" class="navigation__title" aria-label="link to page">
         smartCASA
@@ -193,8 +189,7 @@
               target="_blank"
               rel="noopener"
               aria-label="CASA PDF"
-              >Court Approved Settlement Agreement</a
-            >
+              >Court Approved Settlement Agreement</a>
             (CASA). This application breaks down the CASA into it constituent
             paragraphs for easy comparison against monitoring reports by the
             <a
@@ -250,5 +245,8 @@
     <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
     <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
     <% } %>
+    <% for (var chunk in htmlWebpackPlugin.files.js) { %>
+      <script src="<%= htmlWebpackPlugin.files.js[chunk]%>"></script>
+  <% } %>
   </body>
 </html>

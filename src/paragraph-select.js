@@ -4,9 +4,7 @@ class ParagraphItem {
     this.api = api;
     this.subscriber = subscriber;
     this.data = data;
-    this.elem.innerHTML = `${this.data.paragraphNumber} - ${
-      this.data.paragraphTitle
-    }`;
+    this.elem.innerHTML = `${this.data.number} - ${this.data.text.split(' ').slice(0, 5).join(' ')}`;
     this.selectParagraph = this.selectParagraph.bind(this);
     this.addEventListeners();
   }
@@ -25,7 +23,7 @@ class ParagraphItem {
 
   selectParagraph() {
     this.subscriber.publish('paragraph-change', this.data);
-    this.api.getComplianceByParagraph(this.data.id).then(data => {
+    this.api.getComplianceByParagraph(this.data.number).then(data => {
       this.api.getAllReports().then(reports => {
         for (let i = 0; i < data.length; i++) {
           data[i].report = reports[i];
@@ -33,7 +31,7 @@ class ParagraphItem {
         this.subscriber.publish('report-list-change', data);
         document.querySelector(
           '.title-paragraph-number'
-        ).innerHTML = this.data.paragraphNumber;
+        ).innerHTML = this.data.number;
       });
     });
   }
@@ -59,7 +57,6 @@ class ParagraphSelect {
 
   createList(data) {
     const frag = document.createDocumentFragment();
-    data.sort((a, b) => (a.paragraphNumber > b.paragraphNumber ? 1 : -1)); // api should return sorted but this is just an addtional check
     for (const obj of data) {
       const paragraphItem = new ParagraphItem(obj, this.api, this.subscriber);
       this.paragraphs.push(paragraphItem);
@@ -103,7 +100,7 @@ class ParagraphSelect {
       this.filter = data;
       const filterSet = new Set(this.filter);
       for (const paragraph of this.paragraphs) {
-        if (!filterSet.has(paragraph.data.id)) {
+        if (!filterSet.has(paragraph.number)) {
           paragraph.hide();
         } else {
           paragraph.show();
