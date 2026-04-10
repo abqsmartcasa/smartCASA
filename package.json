@@ -2,7 +2,7 @@
   "name": "smart-casa",
   "version": "1.2.0",
   "main": "index.js",
-  "author": "Russ Biggs <russbiggs@gmail.com>",
+  "author": "Russ Biggs",
   "license": "Apache-2.0",
   "scripts": {
     "build-index": "node --experimental-fetch build-lunr-idx.js",
